@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-12-04T08:15:31+01:00</updated><id>http://localhost:4000/</id><title type="html">ESIR Projet Farmbot</title><subtitle>Site web qui décrit notre projet Farmbot avec l'équipe Yoann, Thomas et Théo</subtitle><entry><title type="html">Fonctionnement du Farmbot</title><link href="http://localhost:4000/jekyll/cat2/2017/12/04/Fonctionnement.html" rel="alternate" type="text/html" title="Fonctionnement du Farmbot" /><published>2017-12-04T00:00:00+01:00</published><updated>2017-12-04T00:00:00+01:00</updated><id>http://localhost:4000/jekyll/cat2/2017/12/04/Fonctionnement</id><content type="html" xml:base="http://localhost:4000/jekyll/cat2/2017/12/04/Fonctionnement.html">&lt;h1 align=&quot;center&quot;&gt; Fonctionnement du Farmbot &lt;/h1&gt;
+
+&lt;p&gt; &lt;font color=&quot;#996633&quot;&gt;
+Le Farmbot est construit en quatre principaux blocs qui sont chacuns reliés entre eux. 
+Tout d’abord la &lt;strong&gt;“Farmbot Web application”&lt;/strong&gt; [1], qui est l’interface permettant à l’utilisateur d'interagir de différentes façons avec le robot. Ensuite, il y a la &lt;strong&gt;partie Raspberry&lt;/strong&gt; [2], directement connecté à la web-App. Elle permet de synchroniser chaque demande, chaque nouvelle séquence et de remonter les informations jusqu’à l’utilisateur. Ce bloc est relié à &lt;strong&gt;l’arduino&lt;/strong&gt; [3], ce micro-contrôleur permet de contrôler la partie matérielle et de retourner les opérations. &lt;/font&gt; 
+&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/FonctionnementFarmbot.png&quot; alt=&quot;Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt; &lt;font color=&quot;#996633&quot;&gt;
+La structure du Farmbot est composé de 4 grandes parties, la dernière est la partie Farmbot. Ce terme défini en faites le robot en lui même, toutes la partie Hardware connecté à l’arduino.
+Nous allons étudier séparément le fonctionnement de chaque blocs.&lt;/font&gt;
+&lt;/p&gt;
+
+&lt;h1 align=&quot;center&quot;&gt; La Web-app &lt;/h1&gt;
+
+&lt;p&gt; &lt;font color=&quot;#996633&quot;&gt;
+Ce que les créateurs du Farmbot appelle la “Web-App” est en réalité l’outil qui sert d’interface entre l’utilisateur et le Farmbot. Cette interface est accessible pour tous les utilisateurs sur le web, sur leurs smartphones et également sur tablette .  La Web-App est de base hébergé sur my.farmbot.io. Cependant, il est possible de l’héberger localement. &lt;/font&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/WebApp.png&quot; alt=&quot;Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt; &lt;font color=&quot;#996633&quot;&gt;
+Cet outil permet de réaliser des tâches tels que le placement des différentes plantes grâce à un système de glisser-déposer. L’utilisateur a un plan de son jardin et une liste des plantes et légumes à sa disposition. Il lui suffit de glisser la plante qu’il souhaite planter à l’emplacement souhaité. Une fois l’application synchronisé avec le Farmbot, celui-ci va automatiquement planter la graine choisie au bon endroit.
+La réalisation d’événement possède des fréquences définies par l’utilisateur. Par exemple, l'utilisateur créé un évènement d’irrigation de son jardin et décide de le mettre en place toutes les semaines le même jour et à la même heur
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt; &lt;font color=&quot;#996633&quot;&gt;
+L’application web permet d’afficher les informations sur le système et l’état de la connexion entre les différentes parties du Farmbot. Par ailleurs, elle sert à initialiser le robot Farmbot.
+On peut définir où sont placées les différentes têtes pour qu’ensuite le bras du Farmbot puisse les utiliser. Une dernière possibilité pour l’utilisateur et de configurer la caméra ainsi que définir la sensibilité à la détection des mauvaises herbes.
+&lt;/font&gt;&lt;/p&gt;
+
+&lt;h1 align=&quot;center&quot;&gt; La Raspberry Pi &lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/RPI.jpeg&quot; alt=&quot;Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&quot;#996633&quot;&gt;
+&lt;strong&gt;La Raspberry Pi est un élément essentiel au fonctionnement du Farmbot&lt;/strong&gt;. En effet, il fait le lien entre la Web-App et la partie Arduino. C’est lui le cerveau du robot. La connexion entre l’application web et la Raspberry Pi se fait en Ethernet ou en Wifi. Dans les deux cas une passerelle MQTT est utilisée. Le serveur MQTT est appelé “broker”. C’est lui qui va collecter les informations. Les clients MQTT, sont abonnés à des topics. Le serveur peut alors envoyer des informations à tous les clients connectés à un même topic.
+
+Cette connexion permet de transférer les commandes désirées par l’utilisateur lorsqu’il réalise par exemple une séquence de plantation ainsi que de faire remonter des informations sur l’état des capteurs.
+
+
+La Raspberry Pi est connectée au contrôleur Arduino en USB pour lui transmettre les différentes commandes et recevoir des données tels que celles fournies par le capteur de sol.
+&lt;/font&gt;&lt;/p&gt;
+
+&lt;h1 align=&quot;center&quot;&gt; L'arduino &lt;/h1&gt;
+
+&lt;p&gt;&lt;font color=&quot;#996633&quot;&gt;
+Le contrôleur Arduino ATmega réalise le lien avec la partie mécanique du Farmbot. En fonction des commandes reçues par la Raspberry Pi, il commande les différentes parties du Farmbot. Les moteurs sont dirigés grâce à la carte RAMPS qui est branchée sur l’arduino. Cette carte permet d'interfacer plusieurs fonctionnalités comme la commande de plusieurs moteurs. Le contrôle se fait par envoi d’impulsions électriques, l’Arduino interagit alors avec les moteurs pour déplacer le bras et réaliser l’ensemble des commandes . Pour ce qui est du contrôle et du choix des têtes, cela est réalisé grâce à l’écriture sur les broches (PINs) correspondantes. L’Arduino récolte également les données de ses capteurs pour les transmettre à la Raspberry qui, ensuite, fait remonter les informations à la Web-App via la passerelle MQTT.
+&lt;/font&gt;&lt;/p&gt;</content><author><name>Team Farmbot</name></author><summary type="html">Fonctionnement du Farmbot</summary></entry><entry><title type="html">Introduction au cahier des charges</title><link href="http://localhost:4000/jekyll/cat2/2017/11/24/Cahier-des-charges.html" rel="alternate" type="text/html" title="Introduction au cahier des charges" /><published>2017-11-24T00:00:00+01:00</published><updated>2017-11-24T00:00:00+01:00</updated><id>http://localhost:4000/jekyll/cat2/2017/11/24/Cahier-des-charges</id><content type="html" xml:base="http://localhost:4000/jekyll/cat2/2017/11/24/Cahier-des-charges.html">&lt;p&gt;&lt;img src=&quot;/assets/Famrbot.png&quot; alt=&quot;Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pour ce projet, nous avons décidé de réaliser un cahier des charges avec plusieurs niveaux à atteindre en fonction de l’avancement dans le temps. 
+   Dans un premier temps, nous souhaitons rendre totalement autonome le Farmbot. Pour cela plusieurs alternatives s’offrent à nous notamment au niveau de l’apport en électricité. Nous étudions la possibilité d’utiliser principalement l’énergie solaire.&lt;/p&gt;
+
+&lt;body style=&quot;background-color:#996633;&quot;&gt;
+
+&lt;strong&gt;Niveau 1 : &lt;/strong&gt;
+
+Mise en place de l’énergie solaire
+Modification du logiciel avec ajouts de conseils et envoi de suggestions en fonction de la saison
+
+&lt;strong&gt; Niveau 2 : &lt;/strong&gt;
+Station météo pour l’optimisation de la gestion de l’eau
+
+&lt;strong&gt; Niveau 3 : &lt;/strong&gt;
+
+Gestion efficace des eaux pluviales
+Outil permettant de retourner la terre
+
+Ce cahier des charges est évolutif en fonction des idées qui pourraient survenir durant le projet.
+            
+&lt;/body&gt;</content><author><name>Yoann</name></author><summary type="html"></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/cat2/2017/11/21/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2017-11-21T10:33:32+01:00</published><updated>2017-11-21T10:33:32+01:00</updated><id>http://localhost:4000/jekyll/cat2/2017/11/21/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/cat2/2017/11/21/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name>Yoann</name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">Introduction</title><link href="http://localhost:4000/2017/11/21/Introduction.html" rel="alternate" type="text/html" title="Introduction" /><published>2017-11-21T10:33:32+01:00</published><updated>2017-11-21T10:33:32+01:00</updated><id>http://localhost:4000/2017/11/21/Introduction</id><content type="html" xml:base="http://localhost:4000/2017/11/21/Introduction.html">&lt;p&gt;Ce projet a été démarré en Septembre 2017.&lt;/p&gt;
+
+&lt;p&gt;L’équipe :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Yoann d’Erneville&lt;/li&gt;
+  &lt;li&gt;Theo Robin&lt;/li&gt;
+  &lt;li&gt;Thomas Legris&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Nous sommes des élèves-ingénieurs en 2eme année en spécialité TICB.&lt;/p&gt;</content><author><name>Yoann</name></author><summary type="html">Ce projet a été démarré en Septembre 2017.</summary></entry><entry><title type="html">Présentation de l’équipe</title><link href="http://localhost:4000/jekyll/cat2/2017/11/21/presentation-equipe.html" rel="alternate" type="text/html" title="Présentation de l'équipe" /><published>2017-11-21T00:00:00+01:00</published><updated>2017-11-21T00:00:00+01:00</updated><id>http://localhost:4000/jekyll/cat2/2017/11/21/presentation-equipe</id><content type="html" xml:base="http://localhost:4000/jekyll/cat2/2017/11/21/presentation-equipe.html">&lt;p&gt;L’équipe est constituée de 3 membres de deuxième année à l’ESIR&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Yoann.jpg&quot; style=&quot;width: 200px;&quot; /&gt;
+&lt;strong&gt;Yoann d’Erneville &lt;/strong&gt; ESIR 2 TICP assure la partie électronique&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Theo.jpg&quot; style=&quot;width: 200px;&quot; /&gt;
+&lt;strong&gt;Théo Robin &lt;/strong&gt; ESIR 2 TICB Assure la partie Informatique&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Thomas.jpg&quot; style=&quot;width: 200px;&quot; /&gt;
+&lt;strong&gt;Thomas Legris&lt;/strong&gt; ESIR 2 TICB assure la partie Réseaux et Communication&lt;/p&gt;
+
+&lt;p&gt;Les rôles sont distribuées à chacun mais on essaye tous d’assurer un peu partout en fonction des disponibilités de chacun.&lt;/p&gt;</content><author><name>Yoann</name></author><summary type="html">L’équipe est constituée de 3 membres de deuxième année à l’ESIR</summary></entry></feed>
